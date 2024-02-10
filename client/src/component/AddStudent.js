@@ -37,7 +37,7 @@ function AddStudent() {
         };
         dispatch(addStudent(new_student));
 
-        const response = await axios.post('http://localhost:8000/student/addStudent', new_student);
+        const response = await axios.post('https://student-management-system-backend-olive.vercel.app/student/addStudent', new_student);
         console.log(response.data);
         history.push("/students");
     };
@@ -83,7 +83,7 @@ function EditStudent() {
     useEffect(() => {
         const getExistingStudent = async() => {
             try{
-                const response = await axios.get(`http://localhost:8000/student/getStudent?id=${id}`);
+                const response = await axios.get(`https://student-management-system-backend-olive.vercel.app/student/getStudent?id=${id}`);
                 const data = response.data.findStudent; 
                 console.log("Response: ", data);
                 setStudentsInfo(data)
@@ -141,7 +141,7 @@ function EditStudent() {
 
         try {
             // Update student data on the server
-            const response = await axios.put(`http://localhost:8000/student/updateStudent/?id=${id}`, formData);
+            const response = await axios.put(`https://student-management-system-backend-olive.vercel.app/student/updateStudent/?id=${id}`, formData);
             console.log(response);
 
             history.push("/students");

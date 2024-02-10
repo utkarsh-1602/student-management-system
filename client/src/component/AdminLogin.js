@@ -24,7 +24,7 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8000/admin/login', formData);
+      const response = await axios.post('https://student-management-system-backend-olive.vercel.app/admin/login', formData);
       console.log(response.data.message);
 
          

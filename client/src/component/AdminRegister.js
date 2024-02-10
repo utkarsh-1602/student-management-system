@@ -30,7 +30,7 @@ const AdminRegister = () => {
 
         try {
 
-            const response = await axios.post('http://localhost:8000/admin/register', formData);
+            const response = await axios.post('https://student-management-system-backend-olive.vercel.app/admin/register', formData);
             console.log(response.data.msg)
 
             if (response.status === 200) {

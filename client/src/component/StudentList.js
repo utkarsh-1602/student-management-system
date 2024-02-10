@@ -8,7 +8,7 @@ const StudentList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/student");
+      const response = await axios.get("https://student-management-system-backend-olive.vercel.app/student");
       console.log("Response: ", response.data);
       setStudents(response.data); // Update the state with fetched data
     } catch (error) {
@@ -23,7 +23,7 @@ const StudentList = () => {
   const handleDeleteStudent = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8000/student/deleteStudent?id=${id}`
+        `https://student-management-system-backend-olive.vercel.app/student/deleteStudent?id=${id}`
       );
       console.log("Response: ", response);
       fetchData();
