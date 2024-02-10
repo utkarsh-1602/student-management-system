@@ -13,14 +13,16 @@ const Login = () => {
 					{/* <div className="container-login100" style={{float : 'left', paddingRight : '5px'}}> */}
 					<div className="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 						<form className="login100-form validate-form flex-sb flex-w">
-							<span className="login100-form-title p-b-53">
-								Sign In As
-					</span>
 
-							<a href="/students" className="btn-face m-b-20">
+							<a href="/adminRegister" className="btn-face m-b-20">
+									<i className="fas fa-users-cog"></i>
+								Admin Register
+							</a>
+
+							<a href="/adminLogin" className="btn-face m-b-20">
 								<i className="fas fa-users-cog"></i>
-						Admin
-					</a>
+								Admin Login
+							</a>
 							{/* to="/my-details/Isaac%20Bowen" */}
 							<div className="btn-google m-b-20 cursor" onClick={() => { setModalIsOpen(true) }}>
 								<i className="fas fa-user-graduate"></i>

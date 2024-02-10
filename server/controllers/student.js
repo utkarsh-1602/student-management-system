@@ -65,7 +65,7 @@ exports.getStudents = async(req, res) => {
         
         // Query the database to find all students
         const students = await Student.find({ isDeleted: false });
-
+        console.log(students)
         // Check if students were found
         if (!students || students.length === 0) {
             return res.status(404).json({ message: 'No students found' });
@@ -102,6 +102,7 @@ exports.deleteStudent = async (req, res) => {
 };
 
 
+
 exports.updateStudent = async (req, res) => {
     try {
         const { id } = req.query;
@@ -130,3 +131,23 @@ exports.updateStudent = async (req, res) => {
         res.status(500).json({ error: `Error updating student: ${error.message}` });
     }
 };
+
+
+exports.getSpecificStudent = async(req, res) => {
+    try {
+        
+        const {id} = req.query;
+        const { name, fathersName, mothersName, homeAddress, age, rollNumber } = req.body;
+
+        console.log(id)
+        console.log(req.body)
+
+        const findStudent = await Student.findById(id)
+
+        return res.status(200).json({ message: 'Student Record Fetched Successfully', findStudent });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: `Error getting student: ${error.message}` });
+    }
+}

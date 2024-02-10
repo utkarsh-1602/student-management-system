@@ -1,20 +1,39 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const StudentList = () => {
+
   const [students, setStudents] = useState([]);
 
-  useEffect(() => {
-    // Fetch data from your API
-    fetch("http://localhost:5000/student")
-      .then((response) => response.json())
-      .then((data) => {
-        setStudents(data); // Update the state with fetched data
-      })
-      .catch((error) => {
+  const fetchData = async () => {
+    try {
+        const response = await axios.get("http://localhost:8000/student");
+        console.log("Response: ", response.data);
+        setStudents(response.data); // Update the state with fetched data
+    } catch (error) {
         console.error("Error fetching data:", error);
-      });
+    }
+  };
+
+  useEffect(() => {
+  fetchData();
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
+
+
+  const handleDeleteStudent = async(id) => {
+
+    try {
+      const response = await axios.delete(`http://localhost:8000/student/deleteStudent?id=${id}`);
+      console.log("Response: ", response);
+      fetchData();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+  }
+
+  console.log("Students" , students)
 
   return (
     <>
@@ -30,14 +49,19 @@ const StudentList = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <a className="navbar-brand" href="/">
-            Student List
-          </a>
+        <div className=" navbar-collapse" id="navbarTogglerDemo01">
+          <h1 className="navbar-brand">
+            Student Dashboard
+          </h1>
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
           <Link to="/add-student">
             <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
               Add new student
+            </button>
+          </Link>
+          <Link to="/">
+            <button className="btn btn-danger mx-3 my-2 my-sm-0" type="submit" style={{backgroundColor: 'darkRed', color: 'white'}}>
+              Logout
             </button>
           </Link>
         </div>
@@ -48,8 +72,15 @@ const StudentList = () => {
             <tr>
               <th scope="col">Sr No.</th>
               <th scope="col">Name</th>
-              {/* Add more table headers as needed */}
+              <th scope="col">Age</th>
+              <th scope="col">Father's Name</th>
+              <th scope="col">Mother's Name</th>
+              <th scope="col">Home Address</th>
+              <th scope="col">Roll Number</th>
+              <th scope="col">Registration Date</th>
               <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+
             </tr>
           </thead>
           <tbody>
@@ -57,11 +88,19 @@ const StudentList = () => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{student.name}</td>
-                {/* Add more table cells for other student data */}
+                <td>{student.age}</td>
+                <td>{student.fathersName}</td>
+                <td>{student.mothersName}</td>
+                <td>{student.homeAddress}</td>
+                <td>{student.rollNumber}</td>
+                <td>{new Date(student.createdAt).toLocaleDateString()}</td>
                 <td>
-                  <Link to={`/edit-student/${student.name}`}>
+                  <Link to={`/edit-student/${student._id}`}>
                     <button className="btn btn-dark">Edit</button>
                   </Link>
+                </td>
+                <td>
+                  <button className="btn-red btn-dark" onClick={() => handleDeleteStudent(student._id)}>Delete</button>
                 </td>
               </tr>
             ))}

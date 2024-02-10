@@ -7,9 +7,7 @@ const User = require("../models/admin");
 
 exports.adminRegistration = async (req, res) => {
 
-    console.log("HEELLEEOOO")
     const { name, email, password } = req.body;
-
     console.log(name, email, password);
 
     // Define validation checks using express-validator
@@ -50,7 +48,7 @@ exports.adminRegistration = async (req, res) => {
             password: hashedPassword
         })
 
-        console.log(newUser) // CUSER CREATED
+        console.log(newUser) 
 
         const payload = {
             newUser: {

@@ -8,5 +8,6 @@ router.post('/addStudent', student.addStudent);
 router.put('/updateStudent', student.updateStudent);
 router.delete('/deleteStudent', student.deleteStudent);
 router.post('/studentLogin', student.studentLogin);
+router.get('/getStudent', student.getSpecificStudent);
 
 module.exports = router;
