@@ -1,9 +1,16 @@
 {
     "version": 2,
+    "builds": [
+      {
+        "src": "./server.js",
+        "use": "@vercel/node"
+      }
+    ],
     "routes": [
-      { "src": "/admin/(.*)", "dest": "/admin" },
-      { "src": "/student/(.*)", "dest": "/student" },
-      { "src": "/(.*)", "dest": "/" }
+      {
+        "src": "/(.*)",
+        "destination": "/"
+      }
     ]
   }
   
