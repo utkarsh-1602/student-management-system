@@ -1,0 +1,9 @@
+{
+    "version": 2,
+    "routes": [
+      { "src": "/admin/(.*)", "dest": "/admin" },
+      { "src": "/student/(.*)", "dest": "/student" },
+      { "src": "/(.*)", "dest": "/" }
+    ]
+  }
+  
