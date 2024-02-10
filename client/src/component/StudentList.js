@@ -3,37 +3,44 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const StudentList = () => {
-
   const [students, setStudents] = useState([]);
+  const [filter, setFilter] = useState("");
 
   const fetchData = async () => {
     try {
-        const response = await axios.get("http://localhost:8000/student");
-        console.log("Response: ", response.data);
-        setStudents(response.data); // Update the state with fetched data
+      const response = await axios.get("http://localhost:8000/student");
+      console.log("Response: ", response.data);
+      setStudents(response.data); // Update the state with fetched data
     } catch (error) {
-        console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-  fetchData();
+    fetchData();
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
-
-  const handleDeleteStudent = async(id) => {
-
+  const handleDeleteStudent = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:8000/student/deleteStudent?id=${id}`);
+      const response = await axios.delete(
+        `http://localhost:8000/student/deleteStudent?id=${id}`
+      );
       console.log("Response: ", response);
       fetchData();
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
 
-  }
+  const filteredStudents = students.filter((student) =>
+    student.name.toLowerCase().includes(filter.toLowerCase()) ||
+    student.homeAddress.toLowerCase().includes(filter.toLowerCase()) ||
+    new Date(student.createdAt)
+      .toLocaleDateString()
+      .includes(filter.toLowerCase())
+  );
 
-  console.log("Students" , students)
+  console.log("Students", students);
 
   return (
     <>
@@ -50,9 +57,7 @@ const StudentList = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className=" navbar-collapse" id="navbarTogglerDemo01">
-          <h1 className="navbar-brand">
-            Student Dashboard
-          </h1>
+          <h1 className="navbar-brand">Student Dashboard</h1>
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
           <Link to="/add-student">
             <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
@@ -60,13 +65,26 @@ const StudentList = () => {
             </button>
           </Link>
           <Link to="/">
-            <button className="btn btn-danger mx-3 my-2 my-sm-0" type="submit" style={{backgroundColor: 'darkRed', color: 'white'}}>
+            <button
+              className="btn btn-danger mx-3 my-2 my-sm-0"
+              type="submit"
+              style={{ backgroundColor: "darkRed", color: "white" }}
+            >
               Logout
             </button>
           </Link>
         </div>
       </nav>
       <div className="container">
+        <div className="my-3">
+          <input
+            type="text"
+            placeholder="Filter by name, address, or registration date"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="form-control"
+          />
+        </div>
         <table className="table">
           <thead className="thead-dark">
             <tr>
@@ -80,11 +98,10 @@ const StudentList = () => {
               <th scope="col">Registration Date</th>
               <th scope="col">Edit</th>
               <th scope="col">Delete</th>
-
             </tr>
           </thead>
           <tbody>
-            {students.map((student, index) => (
+            {filteredStudents.map((student, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{student.name}</td>
@@ -100,7 +117,12 @@ const StudentList = () => {
                   </Link>
                 </td>
                 <td>
-                  <button className="btn-red btn-dark" onClick={() => handleDeleteStudent(student._id)}>Delete</button>
+                  <button
+                    className="btn-red btn-dark"
+                    onClick={() => handleDeleteStudent(student._id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
